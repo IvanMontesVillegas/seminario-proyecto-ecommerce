@@ -1,0 +1,23 @@
+export async function POST(request){
+    try {
+        const {nombre,descripcion,precio} = await request.json();
+        const result = await conn.query("INSERT INTO productos SET ?",{
+            nombre,
+            descripcion,
+            precio
+        });
+        console.log(result)
+
+        return NextResponse.json({
+            nombre,
+            descripcion,
+            precio,
+            id: result.insertId,
+    });
+    } catch (error) {
+        return NextResponse.json(
+            {message: error.message,},
+            {status: 500,}
+        )
+    }
+}
